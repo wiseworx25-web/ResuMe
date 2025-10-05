@@ -3,36 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Build a job-winning online resume. Publish for $2.99.">
-  <title>ResuMe — Your Story, Your Way</title>
+  <meta name="description" content="Build a professional resume or business profile. Publish for R500.">
+  <title>ResuMe — For Everyone</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Merriweather:wght@400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <style id="template-styles">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <style>
     :root {
       --primary: #0066cc;
       --accent: #00cc99;
       --bg: #fafcff;
       --card-bg: white;
-      --font-main: 'IBM Plex Sans', sans-serif;
-      --font-heading: 'Merriweather', serif;
+      --font: 'IBM Plex Sans', sans-serif;
     }
-  </style>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
     body {
       background: var(--bg);
       color: #1a202c;
       line-height: 1.6;
       padding: 1.5rem;
-      font-family: var(--font-main);
     }
     .container { max-width: 1200px; margin: 0 auto; }
     header { text-align: center; margin-bottom: 2rem; }
     header h1 {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       color: var(--primary);
       margin-bottom: 0.4rem;
-      font-family: var(--font-heading);
     }
     header h1 span { color: var(--accent); }
     .form-section, .preview-pane, .output-section {
@@ -48,7 +44,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: var(--font-heading);
     }
     input, textarea, select {
       width: 100%;
@@ -56,7 +51,6 @@
       margin-bottom: 1rem;
       border: 1px solid #e6eaf0;
       border-radius: 10px;
-      font-family: var(--font-main);
     }
     button {
       background: var(--primary);
@@ -75,50 +69,50 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,102,204,0.25);
     }
-    .template-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    .profile-toggle {
+      display: flex;
+      justify-content: center;
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
-    .template-card {
-      border: 2px solid #e6eaf0;
-      border-radius: 12px;
-      padding: 1rem;
-      text-align: center;
-      cursor: pointer;
+    .toggle-btn {
+      padding: 0.6rem 1.5rem;
+      background: #f1f5f9;
+      border: 2px solid #e2e8f0;
+      border-radius: 30px;
       font-weight: 500;
+      cursor: pointer;
     }
-    .template-card.active {
+    .toggle-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .plan-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .plan-card.pro {
       border-color: var(--accent);
       background: rgba(0,204,153,0.05);
     }
-    .experience-item, .cert-item, .showcase-item, .vault-item {
-      background: #f8fafc;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 0.8rem;
-      position: relative;
+    .plan-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+      color: var(--primary);
     }
-    .remove-btn {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      background: none;
-      border: none;
-      color: #e53e3e;
-      cursor: pointer;
-      font-weight: bold;
+    .plan-card.pro .plan-price {
+      color: var(--accent);
     }
-    .suggestion {
-      background: #f0fdf4;
-      border-left: 3px solid var(--accent);
-      padding: 0.8rem;
-      margin: 0.8rem 0;
-      font-size: 0.9rem;
-      color: #065f46;
-    }
-    .preview-pane { min-height: 600px; }
     .output-section { display: none; }
     .qr-code {
       max-width: 200px;
@@ -139,170 +133,146 @@
   <div class="container">
     <header>
       <h1><span>Resu</span>Me</h1>
-      <p>Build a job-winning resume. Publish for just <strong>$2.99</strong>.</p>
+      <p>For job seekers, freelancers, artisans, business owners — anyone who wants to shine.</p>
     </header>
 
-    <!-- Template Selector -->
-    <div class="form-section">
-      <h2><i class="fas fa-palette"></i> Choose Your Style</h2>
-      <div class="template-grid">
-        <div class="template-card active" data-template="executive">Executive</div>
-        <div class="template-card" data-template="tech">Tech Pro</div>
-        <div class="template-card" data-template="creative">Creative</div>
-        <div class="template-card" data-template="consultant">Consultant</div>
-        <div class="template-card" data-template="hybrid">Hybrid</div>
-      </div>
+    <!-- Profile Type Toggle -->
+    <div class="profile-toggle">
+      <button class="toggle-btn active" data-type="personal">👤 Personal Profile</button>
+      <button class="toggle-btn" data-type="business">🏢 Business Profile</button>
     </div>
 
-    <!-- Profile -->
+    <!-- Name & Title -->
     <div class="form-section">
-      <h2><i class="fas fa-user"></i> Name & Title</h2>
-      <input type="text" id="name" placeholder="Full Name" required>
-      <input type="text" id="title" placeholder="Professional Title" required>
+      <h2><i class="fas fa-user"></i> <span id="name-label">Full Name</span></h2>
+      <input type="text" id="name" placeholder="Your full name" required>
+      <input type="text" id="title" placeholder="What do you do? (e.g., Electrician, Musician, Cafe Owner)" required>
     </div>
 
     <!-- Summary -->
     <div class="form-section">
-      <h2><i class="fas fa-comment-alt"></i> Professional Summary</h2>
-      <textarea id="summary" placeholder="3–5 sentences about your impact..." rows="6" required></textarea>
+      <h2><i class="fas fa-comment-alt"></i> <span id="summary-label">About You</span></h2>
+      <textarea id="summary" placeholder="Tell your story in 3–5 sentences. What makes you unique?" rows="5" required></textarea>
     </div>
 
     <!-- Skills -->
     <div class="form-section">
-      <h2><i class="fas fa-star"></i> Key Skills</h2>
-      <textarea id="skills" placeholder="e.g., GenAI, Watsonx, TOGAF..." rows="6" required></textarea>
+      <h2><i class="fas fa-star"></i> <span id="skills-label">Your Strengths</span></h2>
+      <textarea id="skills" placeholder="List your key skills or services (e.g., Guitar Performance, Plumbing, Customer Service)" rows="4" required></textarea>
     </div>
 
-    <!-- Experience -->
+    <!-- Experience / Services -->
     <div class="form-section">
-      <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
+      <h2><i class="fas fa-briefcase"></i> <span id="exp-label">Work History or Services</span></h2>
       <div id="experience-list"></div>
-      <button type="button" onclick="addExperience()"><i class="fas fa-plus"></i> Add Role</button>
+      <button type="button" id="add-exp-btn"><i class="fas fa-plus"></i> Add</button>
     </div>
 
-    <!-- Education -->
+    <!-- Education / Training -->
     <div class="form-section">
-      <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+      <h2><i class="fas fa-graduation-cap"></i> Education or Training</h2>
       <div id="education-list"></div>
-      <button type="button" onclick="addEducation()"><i class="fas fa-plus"></i> Add Degree</button>
+      <button type="button" id="add-edu-btn"><i class="fas fa-plus"></i> Add</button>
     </div>
 
     <!-- Certifications -->
     <div class="form-section">
-      <h2><i class="fas fa-certificate"></i> Certifications</h2>
+      <h2><i class="fas fa-certificate"></i> Certifications or Licenses</h2>
       <div id="certs-list"></div>
-      <button type="button" onclick="addCert()"><i class="fas fa-plus"></i> Add Certification</button>
-    </div>
-
-    <!-- Showcase -->
-    <div class="form-section">
-      <h2><i class="fas fa-images"></i> Showcase / Projects</h2>
-      <p>Add key projects with title + description.</p>
-      <div id="showcase-list"></div>
-      <button type="button" onclick="addShowcaseItem()"><i class="fas fa-plus"></i> Add Project</button>
-    </div>
-
-    <!-- Private Vault -->
-    <div class="form-section">
-      <h2><i class="fas fa-lock"></i> Private Vault (Optional)</h2>
-      <p>Add sensitive info (ID, address, etc.). Only visible to guests with your password.</p>
-      <input type="password" id="vault-password" placeholder="Set a guest password (e.g., ibm2024)" autocomplete="off">
-      <textarea id="vault-content" placeholder="Enter confidential details (e.g., ID: 901203..., Marital Status: Single...)" rows="4"></textarea>
-      <div class="suggestion">
-        💡 <em>Share this password only with trusted recruiters.</em>
-      </div>
+      <button type="button" id="add-cert-btn"><i class="fas fa-plus"></i> Add</button>
     </div>
 
     <!-- Contact -->
     <div class="form-section">
       <h2><i class="fas fa-paper-plane"></i> Contact</h2>
       <input type="email" id="email" placeholder="Email (required)" required>
-      <input type="url" id="linkedin" placeholder="LinkedIn URL">
       <input type="text" id="phone" placeholder="Phone (optional)">
+      <input type="url" id="website" placeholder="Website or Social Link (optional)">
+    </div>
+
+    <!-- Pricing -->
+    <div class="form-section">
+      <h2><i class="fas fa-tag"></i> Choose Your Plan</h2>
+      <div class="pricing-grid">
+        <div class="plan-card">
+          <h3>Standard</h3>
+          <div class="plan-price">R500</div>
+          <p>Live profile + QR code + Private Vault</p>
+          <button onclick="selectPlan('standard')"><i class="fas fa-check"></i> Select</button>
+        </div>
+        <div class="plan-card pro">
+          <h3>Pro</h3>
+          <div class="plan-price">R600</div>
+          <p>Standard + Interview/Client Prep Resources</p>
+          <button onclick="selectPlan('pro')"><i class="fas fa-crown"></i> Select Pro</button>
+        </div>
+      </div>
     </div>
 
     <!-- Preview -->
     <div class="form-section">
       <h2><i class="fas fa-eye"></i> Live Preview</h2>
       <div class="preview-pane" id="preview">
-        <p style="text-align:center; color:#94a3b8;">Your ResuMe will appear here...</p>
+        <p style="text-align:center; color:#94a3b8;">Your profile will appear here...</p>
       </div>
     </div>
 
     <!-- Publish -->
-    <button onclick="initiatePayment()"><i class="fas fa-lock"></i> Secure Publish — $2.99</button>
+    <button id="publish-btn" onclick="initiatePayment()" disabled><i class="fas fa-lock"></i> Select a Plan to Publish</button>
 
     <div class="output-section" id="output">
       <h2><i class="fas fa-check-circle"></i> Published!</h2>
-      <p>Your personal link: <span id="live-url" style="color:var(--primary); font-weight:600;"></span></p>
+      <p>Your link: <span id="live-url" style="color:var(--primary); font-weight:600;"></span></p>
       <div class="qr-code" id="qr-code"></div>
-      <p style="text-align:center; margin-top:1rem;">Scan to view instantly on any device</p>
+      <p style="text-align:center; margin-top:1rem;">Scan to view instantly</p>
     </div>
   </div>
 
-  <script src="https://js.stripe.com/v3/"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script>
-    // ===== VAULT ENCRYPTION =====
-    async function encryptVault(text, password) {
-      if (!text || !password) return null;
-      const encoder = new TextEncoder();
-      const data = encoder.encode(text);
-      const pwHash = await crypto.subtle.digest('SHA-256', encoder.encode(password));
-      const iv = crypto.getRandomValues(new Uint8Array(12));
-      const alg = { name: 'AES-GCM', iv: iv };
-      const key = await crypto.subtle.importKey('raw', pwHash, alg, false, ['encrypt']);
-      const encrypted = await crypto.subtle.encrypt(alg, key, data);
-      const buffer = new Uint8Array(iv.byteLength + encrypted.byteLength);
-      buffer.set(iv, 0);
-      buffer.set(new Uint8Array(encrypted), iv.byteLength);
-      return btoa(String.fromCharCode(...buffer));
-    }
+    let profileType = 'personal';
+    let selectedPlan = null;
 
-    // ===== TEMPLATES =====
-    const templates = {
-      executive: { primary: '#0066cc', accent: '#00cc99', bg: '#fafcff', font: "'Merriweather', serif" },
-      tech: { primary: '#0f172a', accent: '#38bdf8', bg: '#f1f5f9', font: "'IBM Plex Sans', monospace" },
-      creative: { primary: '#be123c', accent: '#f43f5e', bg: '#fff9f9', font: "'Montserrat', sans-serif" },
-      consultant: { primary: '#1e293b', accent: '#8b5cf6', bg: '#f8fafc', font: "'IBM Plex Sans', sans-serif" },
-      hybrid: { primary: '#0d9488', accent: '#14b8a6', bg: '#f0fdfa', font: "'IBM Plex Sans', sans-serif" }
-    };
-
-    document.querySelectorAll('.template-card').forEach(card => {
-      card.addEventListener('click', () => {
-        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        applyTemplate(card.dataset.template);
+    // Toggle Profile Type
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        profileType = btn.dataset.type;
+        updateLabels();
         updatePreview();
       });
     });
 
-    function applyTemplate(name) {
-      const t = templates[name] || templates.executive;
-      document.documentElement.style.setProperty('--primary', t.primary);
-      document.documentElement.style.setProperty('--accent', t.accent);
-      document.documentElement.style.setProperty('--bg', t.bg);
-      document.getElementById('template-styles').innerHTML = `
-        :root {
-          --primary: ${t.primary};
-          --accent: ${t.accent};
-          --bg: ${t.bg};
-          --card-bg: white;
-        }
-        h1, h2, h3 { font-family: ${t.font} !important; }
-      `;
+    function updateLabels() {
+      if (profileType === 'business') {
+        document.getElementById('name-label').textContent = 'Business Name';
+        document.getElementById('summary-label').textContent = 'About Your Business';
+        document.getElementById('skills-label').textContent = 'Services or Products';
+        document.getElementById('exp-label').textContent = 'Key Projects or Clients';
+        document.getElementById('name').placeholder = 'Business name';
+        document.getElementById('title').placeholder = 'What does your business do?';
+      } else {
+        document.getElementById('name-label').textContent = 'Full Name';
+        document.getElementById('summary-label').textContent = 'About You';
+        document.getElementById('skills-label').textContent = 'Your Strengths';
+        document.getElementById('exp-label').textContent = 'Work History or Services';
+        document.getElementById('name').placeholder = 'Your full name';
+        document.getElementById('title').placeholder = 'What do you do?';
+      }
     }
 
-    // ===== ADDERS =====
+    // Adders
     function addExperience() {
       const div = document.createElement('div');
       div.className = 'experience-item';
       div.innerHTML = `
         <button class="remove-btn" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        <input type="text" placeholder="Job Title" class="exp-title" oninput="updatePreview()">
-        <input type="text" placeholder="Company" class="exp-company" oninput="updatePreview()">
-        <input type="text" placeholder="Dates" class="exp-dates" oninput="updatePreview()">
-        <textarea placeholder="Impact: What problem did you solve? What was the result?" class="exp-desc" rows="3" oninput="updatePreview()"></textarea>
+        ${profileType === 'business' ? 
+          '<input type="text" placeholder="Client or Project Name" class="exp-title" oninput="updatePreview()">' :
+          '<input type="text" placeholder="Job Title or Role" class="exp-title" oninput="updatePreview()">'}
+        <input type="text" placeholder="${profileType === 'business' ? 'Industry or Description' : 'Company or Employer'}" class="exp-company" oninput="updatePreview()">
+        <textarea placeholder="What did you do? What was the result?" class="exp-desc" rows="2" oninput="updatePreview()"></textarea>
       `;
       document.getElementById('experience-list').appendChild(div);
     }
@@ -312,9 +282,8 @@
       div.className = 'education-item';
       div.innerHTML = `
         <button class="remove-btn" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        <input type="text" placeholder="Degree" class="edu-degree" oninput="updatePreview()">
-        <input type="text" placeholder="Institution" class="edu-inst" oninput="updatePreview()">
-        <input type="text" placeholder="Year" class="edu-year" oninput="updatePreview()">
+        <input type="text" placeholder="${profileType === 'business' ? 'Training or Certification' : 'Degree or Qualification'}" class="edu-degree" oninput="updatePreview()">
+        <input type="text" placeholder="Institution or Provider" class="edu-inst" oninput="updatePreview()">
       `;
       document.getElementById('education-list').appendChild(div);
     }
@@ -324,42 +293,34 @@
       div.className = 'cert-item';
       div.innerHTML = `
         <button class="remove-btn" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        <input type="text" placeholder="Certification Name" class="cert-name" oninput="updatePreview()">
-        <input type="text" placeholder="Issuer" class="cert-issuer" oninput="updatePreview()">
-        <input type="text" placeholder="Date" class="cert-date" oninput="updatePreview()">
+        <input type="text" placeholder="Name of Certificate or License" class="cert-name" oninput="updatePreview()">
+        <input type="text" placeholder="Issuing Body" class="cert-issuer" oninput="updatePreview()">
       `;
       document.getElementById('certs-list').appendChild(div);
     }
 
-    function addShowcaseItem() {
-      const div = document.createElement('div');
-      div.className = 'showcase-item';
-      div.innerHTML = `
-        <button class="remove-btn" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        <input type="text" placeholder="Project Title" class="showcase-title" oninput="updatePreview()">
-        <textarea placeholder="Short description (1–2 sentences)" class="showcase-desc" rows="2" oninput="updatePreview()"></textarea>
-      `;
-      document.getElementById('showcase-list').appendChild(div);
-    }
+    // Buttons
+    document.getElementById('add-exp-btn').addEventListener('click', addExperience);
+    document.getElementById('add-edu-btn').addEventListener('click', addEducation);
+    document.getElementById('add-cert-btn').addEventListener('click', addCert);
 
-    // ===== PREVIEW =====
-    async function updatePreview() {
-      const name = document.getElementById('name').value || 'Your Name';
-      const title = document.getElementById('title').value || 'Professional Title';
+    // Preview
+    function updatePreview() {
+      const name = document.getElementById('name').value || (profileType === 'business' ? 'Your Business' : 'Your Name');
+      const title = document.getElementById('title').value || 'What you do';
       const summary = document.getElementById('summary').value.replace(/\n/g, '<br>') || '';
       const skills = document.getElementById('skills').value.replace(/\n/g, '<br>') || '';
       const email = document.getElementById('email').value || '';
-      const linkedin = document.getElementById('linkedin').value || '';
       const phone = document.getElementById('phone').value || '';
+      const website = document.getElementById('website').value || '';
 
       let expHTML = '';
       document.querySelectorAll('.experience-item').forEach(item => {
         const t = item.querySelector('.exp-title')?.value;
         const c = item.querySelector('.exp-company')?.value;
-        const d = item.querySelector('.exp-dates')?.value;
         const desc = item.querySelector('.exp-desc')?.value;
         if (t || c) {
-          expHTML += `<div style="margin-bottom:1.2rem;"><strong>${t || 'Role'}</strong> — ${c || 'Company'}<br><em>${d || ''}</em><br>${desc || ''}</div>`;
+          expHTML += `<div style="margin-bottom:1.2rem;"><strong>${t || 'Role'}</strong><br>${c || ''}<br>${desc || ''}</div>`;
         }
       });
 
@@ -367,9 +328,8 @@
       document.querySelectorAll('.education-item').forEach(item => {
         const deg = item.querySelector('.edu-degree')?.value;
         const inst = item.querySelector('.edu-inst')?.value;
-        const year = item.querySelector('.edu-year')?.value;
         if (deg) {
-          eduHTML += `<p><strong>${deg}</strong><br>${inst || ''} ${year ? `(${year})` : ''}</p>`;
+          eduHTML += `<p><strong>${deg}</strong><br>${inst || ''}</p>`;
         }
       });
 
@@ -377,102 +337,60 @@
       document.querySelectorAll('.cert-item').forEach(item => {
         const name = item.querySelector('.cert-name')?.value;
         const issuer = item.querySelector('.cert-issuer')?.value;
-        const date = item.querySelector('.cert-date')?.value;
         if (name) {
-          certHTML += `<div style="margin-bottom:0.5rem;">${name}${issuer ? ` — ${issuer}` : ''}${date ? ` (${date})` : ''}</div>`;
+          certHTML += `<div style="margin-bottom:0.5rem;">${name}${issuer ? ` — ${issuer}` : ''}</div>`;
         }
       });
-
-      let showcaseHTML = '';
-      document.querySelectorAll('.showcase-item').forEach(item => {
-        const title = item.querySelector('.showcase-title')?.value || 'Project';
-        const desc = item.querySelector('.showcase-desc')?.value || '';
-        showcaseHTML += `<div style="margin-bottom:1.2rem; padding:1rem; background:#f8fafc; border-radius:8px;"><strong>${title}</strong><br>${desc}</div>`;
-      });
-
-      // Vault
-      let vaultHTML = '';
-      const vaultPass = document.getElementById('vault-password').value;
-      const vaultContent = document.getElementById('vault-content').value;
-      if (vaultContent && vaultPass) {
-        const encrypted = await encryptVault(vaultContent, vaultPass);
-        vaultHTML = `
-          <div id="private-vault" style="margin-top:2rem; padding:1.5rem; background:#fff8e1; border-radius:12px; display:none;">
-            <h3 style="color:#e65100;">Confidential Details</h3>
-            <div id="vault-content-decrypted"></div>
-          </div>
-          <button id="unlock-vault" onclick="promptVaultPassword()" style="background:#e65100; color:white; border:none; padding:0.6rem 1.2rem; border-radius:30px; cursor:pointer; margin-top:1rem;">
-            🔑 View Private Details
-          </button>
-          <script>
-            const encryptedData = "${encrypted}";
-            async function promptVaultPassword() {
-              const pass = prompt("Enter the guest password to view confidential details:");
-              if (!pass) return;
-              try {
-                const encoder = new TextEncoder();
-                const encrypted = new Uint8Array(atob(encryptedData).split('').map(c => c.charCodeAt(0)));
-                const iv = encrypted.slice(0, 12);
-                const data = encrypted.slice(12);
-                const pwHash = await crypto.subtle.digest('SHA-256', encoder.encode(pass));
-                const alg = { name: 'AES-GCM', iv: iv };
-                const key = await crypto.subtle.importKey('raw', pwHash, alg, false, ['decrypt']);
-                const decrypted = await crypto.subtle.decrypt(alg, key, data);
-                const text = new TextDecoder().decode(decrypted);
-                document.getElementById('vault-content-decrypted').innerHTML = text.replace(/\\n/g, '<br>');
-                document.getElementById('private-vault').style.display = 'block';
-                document.getElementById('unlock-vault').style.display = 'none';
-              } catch (e) {
-                alert("Incorrect password. Access denied.");
-              }
-            }
-          </script>
-        `;
-      }
 
       document.getElementById('preview').innerHTML = `
         <div style="text-align:center; margin-bottom:2rem;">
           <h1>${name}</h1>
-          <p style="color:var(--primary); font-size:1.3rem;">${title}</p>
+          <p style="color:var(--primary);">${title}</p>
         </div>
         ${summary ? `<div style="margin-bottom:2rem;">${summary}</div>` : ''}
-        ${skills ? `<div style="margin-bottom:2rem;"><h2 style="color:var(--primary);">Key Skills</h2><p>${skills}</p></div>` : ''}
-        ${expHTML ? `<div style="margin-bottom:2rem;"><h2 style="color:var(--primary);">Professional Experience</h2>${expHTML}</div>` : ''}
+        ${skills ? `<div style="margin-bottom:2rem;"><h2 style="color:var(--primary);">${profileType === 'business' ? 'Services' : 'Strengths'}</h2><p>${skills}</p></div>` : ''}
+        ${expHTML ? `<div style="margin-bottom:2rem;"><h2 style="color:var(--primary);">${profileType === 'business' ? 'Projects' : 'Experience'}</h2>${expHTML}</div>` : ''}
         ${eduHTML ? `<div style="margin-bottom:2rem;"><h2 style="color:var(--primary);">Education</h2>${eduHTML}</div>` : ''}
         ${certHTML ? `<div style="margin-bottom:2rem;"><h2 style="color:var(--primary);">Certifications</h2>${certHTML}</div>` : ''}
-        ${showcaseHTML ? `<div style="margin-bottom:2rem;"><h2 style="color:var(--primary);">Key Projects</h2>${showcaseHTML}</div>` : ''}
-        ${vaultHTML}
         <div><h2 style="color:var(--primary);">Contact</h2>
           ${email ? `<p>Email: ${email}</p>` : ''}
-          ${linkedin ? `<p><a href="${linkedin}" target="_blank" style="color:var(--primary);">LinkedIn</a></p>` : ''}
           ${phone ? `<p>Phone: ${phone}</p>` : ''}
+          ${website ? `<p><a href="${website}" target="_blank">Website</a></p>` : ''}
         </div>
       `;
     }
 
-    // ===== PUBLISH =====
+    // Input listeners
+    ['name', 'title', 'summary', 'skills', 'email', 'phone', 'website'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updatePreview);
+    });
+
+    // Plan Selection
+    function selectPlan(plan) {
+      selectedPlan = plan;
+      document.getElementById('publish-btn').disabled = false;
+      document.getElementById('publish-btn').innerHTML = `<i class="fas fa-lock"></i> Publish — ${plan === 'pro' ? 'R600' : 'R500'}`;
+    }
+
+    // Paystack Payment
     function initiatePayment() {
+      if (!selectedPlan) return alert("Please select a plan.");
       const name = document.getElementById('name').value?.trim();
       const email = document.getElementById('email').value?.trim();
       if (!name || !email) return alert("Please enter your name and email.");
 
-      if (!confirm("Publish your ResuMe for $2.99?\nTest card: 4242 4242 4242 4242")) return;
-
-      const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-      const url = `https://resu.me/${slug}`;
-
-      document.getElementById('live-url').textContent = url;
-      new QRCode(document.getElementById('qr-code'), { text: url, width: 200, height: 200 });
-      document.getElementById('output').style.display = 'block';
-      document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+      if (selectedPlan === 'pro') {
+        window.location.href = 'https://paystack.shop/pay/3sizcjpqfw';
+      } else {
+        window.location.href = 'https://paystack.shop/pay/yqt6qhtmz2';
+      }
     }
 
     // Init
-    applyTemplate('executive');
     addExperience();
     addEducation();
     addCert();
-    addShowcaseItem();
+    updateLabels();
   </script>
 
 </body>
